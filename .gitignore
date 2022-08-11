@@ -17,7 +17,6 @@ yarn-error.log
 **node_modules
 **vendor
 /.ssh
-/.sync_collections
 /.sync_temp
 /.sync_ignore
 /image_laravel_start_module
@@ -25,3 +24,4 @@ yarn-error.log
 /docker-compose.yaml
 /my.log
 /sync-config.yaml
+/.sync_collections/last_open
