@@ -1,0 +1,13 @@
+{
+    "name": "RoleAndGroup",
+    "alias": "roleandgroup",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\RoleAndGroup\\Providers\\RoleAndGroupServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

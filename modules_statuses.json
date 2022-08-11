@@ -1,0 +1,7 @@
+{
+    "RoleAndGroup": true,
+    "PositionAndDivision": true,
+    "Region": true,
+    "MainUser": true,
+    "Auth": true
+}

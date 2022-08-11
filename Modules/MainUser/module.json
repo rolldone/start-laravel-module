@@ -1,0 +1,13 @@
+{
+    "name": "MainUser",
+    "alias": "mainuser",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\MainUser\\Providers\\MainUserServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

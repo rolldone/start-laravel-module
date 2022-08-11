@@ -1,0 +1,13 @@
+{
+    "name": "PositionAndDivision",
+    "alias": "positionanddivision",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PositionAndDivision\\Providers\\PositionAndDivisionServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
