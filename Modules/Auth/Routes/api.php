@@ -19,15 +19,11 @@ Route::group([
     'middleware' => ["guest:web"] // ['auth:sanctum']
 ], function () {
     // return $request->user();
-    Route::post("login", 'AuthController@loginApi')->name("api.auth.login");
-    Route::post("register", 'AuthController@register')->name("api.auth.register");
+    Route::post("/login", 'AuthController@loginApi')->name("api.auth.login");
+    Route::post("/register", 'AuthController@register')->name("api.auth.register");
 });
 
-
-Route::group([
-    'prefix' => 'auth',
-    'middleware' => ["auth:api"]
-], function () {
-    Route::get("logout", 'AuthController@logout')->name("api.auth.logout");
-    Route::get("get", 'AuthController@getAuth')->name("api.auth.get_auth");
+Route::prefix("auth")->middleware(["auth_api_module:backend"])->group(function () {
+    Route::get("/logout", 'AuthController@logout')->name("api.auth.logout");
+    Route::get("/get", 'AuthController@getAuth')->name("api.auth.get_auth");
 });

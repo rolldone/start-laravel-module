@@ -5,6 +5,7 @@ namespace Modules\Auth\Http\Controllers;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Modules\Auth\Classes\UserClasses;
@@ -113,14 +114,14 @@ class AuthController extends BaseController
 
 	public function getAuth(Request $request)
 	{
-		try{
+		try {
 			$resData = [
 				'status' => 'success',
 				'status_code' => 200,
-				'return' => "mvakdfmvkdfvm"
+				'return' => Auth::user()
 			];
 			return response()->json($resData, $resData["status_code"]);
-		}catch(Exception $ex){
+		} catch (Exception $ex) {
 			return $this->returnSimpleException($ex);
 		}
 	}

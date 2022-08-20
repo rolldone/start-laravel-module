@@ -5,6 +5,7 @@ namespace Modules\Auth\Services;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Modules\Auth\Classes\UserClasses;
 use Modules\Auth\Entities\User;
 
@@ -44,7 +45,9 @@ class AuthService
         ], 401);
       }
       $user = User::where('email', $user->getEmail())->first();
-      return $user->createToken("API TOKEN")->plainTextToken;
+      $token = $user->createToken("API TOKEN");
+      Log::debug("token :: ", [$token]);
+      return  $token->plainTextToken;
     } catch (Exception $ex) {
       throw $ex;
     }
