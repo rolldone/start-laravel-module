@@ -40,6 +40,16 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'auth_users_module',
+            'hash' => false,
+        ],
+        'backend' => [
+            'driver' => 'sanctum',
+            'provider' => 'auth_users_module',
+            'hash' => false,
+        ],
     ],
 
     /*
@@ -64,7 +74,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
+        'auth_users_module' => [
+            'driver' => 'eloquent',
+            'model' => Modules\Auth\Entities\User::class,
+        ]
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

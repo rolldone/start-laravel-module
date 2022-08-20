@@ -1,0 +1,9 @@
+POST {{hostname}}/api/auth/register HTTP/1.1
+content-type: application/json
+
+{
+    "name": "donny rolanda",
+    "email": "donny.rolanda2@gmail.com",
+    "password": "43lw9rj2",
+    "password_confirm": "43lw9rj2" 
+}

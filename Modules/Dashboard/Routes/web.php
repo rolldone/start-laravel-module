@@ -11,8 +11,6 @@
 |
 */
 
-use Illuminate\Support\Facades\Route;
-
-// Route::prefix('auth')->group(function () {
-//     Route::get('/{any}', 'AuthController@login')->where('any', '.*');
-// });
+Route::prefix('dashboard')->group(function() {
+    Route::get('/', 'DashboardController@index');
+});

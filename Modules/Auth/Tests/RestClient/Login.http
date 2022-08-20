@@ -1,0 +1,18 @@
+# @name auth_login
+POST {{hostname}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "donny.rolanda@gmail.com",
+  "password": "43lw9rj2"
+}
+
+
+###
+
+@token = {{auth_login.response.body.return}}
+
+# @name auth_get
+GET {{hostname}}/api/auth/get
+Content-Type: application/json
+Authorization: Bearer {{token}}
