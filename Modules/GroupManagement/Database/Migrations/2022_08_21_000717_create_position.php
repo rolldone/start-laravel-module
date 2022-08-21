@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->boolean("is_enable")->default(true);
-            $table->bigInteger("gm_division_id")->unsigned()->nullable();
+            $table->bigInteger("division_id")->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

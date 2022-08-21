@@ -10,6 +10,7 @@ class GMPositionClasses
   private string $name;
   private bool $is_enable;
   private GMDivision $gmDivision;
+  private int $division_id; 
 
   /**
    * Get the value of id
@@ -87,6 +88,26 @@ class GMPositionClasses
   public function setGmDivision(GMDivision $gmDivision)
   {
     $this->gmDivision = $gmDivision;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of division_id
+   */ 
+  public function getDivision_id()
+  {
+    return $this->division_id;
+  }
+
+  /**
+   * Set the value of division_id
+   *
+   * @return  self
+   */ 
+  public function setDivision_id($division_id)
+  {
+    $this->division_id = $division_id;
 
     return $this;
   }

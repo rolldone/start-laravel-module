@@ -1,0 +1,56 @@
+@divisionId = 1
+
+# @name gm_division_get
+GET {{hostname}}/api/groupmanagement/division/{{divisionId}}/view
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# @name gm_position_add
+POST {{hostname}}/api/groupmanagement/position/add
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Programmer",
+  "is_enable": true,
+  "division_id": {{divisionId}}
+}
+
+###
+
+@positionId = {{gm_position_add.response.body.return.id}}
+
+# @name gm_position_get
+GET {{hostname}}/api/groupmanagement/position/{{positionId}}/view
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+###
+@positionGetId = {{gm_position_get.response.body.return.id}}
+
+# @name gm_position_update
+POST {{hostname}}/api/groupmanagement/position/update
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Web Programmer",
+  "is_enable": true,
+  "division_id": {{divisionId}},
+  "id": {{positionGetId}}
+}
+
+###
+
+# @name gm_position_delete
+POST {{hostname}}/api/groupmanagement/position/delete
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": {{positionGetId}}
+}
+

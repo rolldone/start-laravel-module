@@ -13,6 +13,8 @@ class GMPosition extends Model
 
     protected $fillable = [];
 
+    protected $casts = ['is_enable' => 'boolean'];
+
     protected static function newFactory()
     {
         // return \Modules\GroupManagement\Database\factories\GMPositionFactory::new();

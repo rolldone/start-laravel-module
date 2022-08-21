@@ -34,7 +34,6 @@ Authorization: Bearer {{token}}
   "id": {{divisionGetId}}
 }
 
-
 ###
 
 # @name gm_division_delete
