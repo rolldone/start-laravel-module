@@ -40,14 +40,14 @@ class GMGroupController extends BaseController
     {
         try {
             $gmGroup = new GMGroupClasses();
-            // $gmGroup->setName($req->input("name", null));
-            // $gmGroup->setIs_enable($req->input("is_enable", "true"));
-            // $gmGroupService = new GMGroupService();
-            // $resData = $gmGroupService->addGroup($gmGroup);
+            $gmGroup->setName($req->input("name", null));
+            $gmGroup->setIs_enable($req->input("is_enable", "true"));
+            $gmGroupService = new GMGroupService();
+            $resData = $gmGroupService->addGroup($gmGroup);
             $resData = [
                 'status' => 'success',
                 'status_code' => 200,
-                'return' => $req->all()
+                'return' => $resData
             ];
             return response()->json($resData, $resData['status_code']);
         } catch (Exception $ex) {

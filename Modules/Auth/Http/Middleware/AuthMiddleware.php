@@ -21,6 +21,7 @@ class AuthMiddleware extends Middleware
     {
         $key = $guards[0];
         Log::debug("key :: ", [$key]);
+        Log::debug("request :: ", [$request->all()]);
         switch ($key) {
             case 'backend':
                 try {
