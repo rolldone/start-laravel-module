@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->boolean("is_enable")->default(true);
-            $table->integer("parent_id");
+            $table->bigInteger("parent_id")->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

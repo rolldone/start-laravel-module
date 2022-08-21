@@ -11,6 +11,7 @@
 |
 */
 
-Route::prefix('groupmanagement')->group(function() {
-    Route::get('/', 'GroupManagementController@index');
+use Illuminate\Support\Facades\Route;
+
+Route::prefix('groupmanagement')->group(function () {
 });

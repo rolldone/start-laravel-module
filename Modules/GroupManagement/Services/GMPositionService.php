@@ -2,42 +2,42 @@
 
 namespace Modules\GroupManagement\Services;
 
-use Modules\GroupManagement\Classes\GMPosition;
+use Modules\GroupManagement\Classes\GMPositionClasses;
 
 class GMPositionService
 {
-  public function addPosition(GMPosition $gMPosition)
+  public function addPosition(GMPositionClasses $gMPosition)
   {
-    
+
   }
 
-  public function updatePosition(GMPosition $gMPosition)
+  public function updatePosition(GMPositionClasses $gMPosition)
   {
-    
+
   }
 
-  public function deletePosition(GMPosition $gMPosition)
+  public function deletePosition(GMPositionClasses $gMPosition)
   {
-    
+
   }
 
   public function deletePositionById(int $id)
   {
-    
+
   }
 
   public function getPositionById_IdUser(int $id, int $user_id)
   {
-    
+
   }
 
   public function getPositionById(int $id)
   {
-    
+
   }
 
   public function getPositions($props)
   {
-    
+
   }
 }

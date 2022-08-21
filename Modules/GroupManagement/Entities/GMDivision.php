@@ -9,7 +9,11 @@ class GMDivision extends Model
 {
     use HasFactory;
 
+    public $table = "gm_divisions";
+
     protected $fillable = [];
+
+    protected $casts = ['is_enable' => 'boolean'];
 
     protected static function newFactory()
     {

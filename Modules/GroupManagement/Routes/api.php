@@ -15,25 +15,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix("groupmanagement/division")->middleware(["auth_api_module:backend"])->group(function () {
-    Route::post("/add", 'AuthController@logout')->name("api.auth.logout");
-    Route::post("/update", 'AuthController@getAuth')->name("api.auth.get_auth");
-    Route::post("/delete", 'AuthController@getAuth')->name("api.auth.get_auth");
-    Route::get("/divisions", 'AuthController@getAuth')->name("api.auth.get_auth");
-    Route::get("/{id}/view", 'AuthController@getAuth')->name("api.auth.get_auth");
+    Route::post("/add", 'GMDivisionController@store')->name("api.group_management.division.add");
+    Route::post("/update", 'GMDivisionController@update')->name("api.group_management.division.update");
+    Route::post("/delete", 'GMDivisionController@destroy')->name("api.group_management.division.delete");
+    Route::get("/divisions", 'GMDivisionController@index')->name("api.group_management.division.divisions");
+    Route::get("/{id}/view", 'GMDivisionController@show')->name("api.group_management.division.division");
 });
 
 Route::prefix("groupmanagement/position")->middleware(["auth_api_module:backend"])->group(function () {
-    Route::post("/add", 'AuthController@logout')->name("api.auth.logout");
-    Route::post("/update", 'AuthController@getAuth')->name("api.auth.get_auth");
-    Route::post("/delete", 'AuthController@getAuth')->name("api.auth.get_auth");
-    Route::get("/positions", 'AuthController@getAuth')->name("api.auth.get_auth");
-    Route::get("/{id}/view", 'AuthController@getAuth')->name("api.auth.get_auth");
+    Route::post("/add", 'GMPositionController@store')->name("api.group_management.position.add");
+    Route::post("/update", 'GMPositionController@update')->name("api.group_management.position.update");
+    Route::post("/delete", 'GMPositionController@destroy')->name("api.group_management.position.delete");
+    Route::get("/positions", 'GMPositionController@index')->name("api.group_management.position.positions");
+    Route::get("/{id}/view", 'GMPositionController@show')->name("api.group_management.position.position");
 });
 
 Route::prefix("groupmanagement/group")->middleware(["auth_api_module:backend"])->group(function () {
-    Route::post("/add", 'AuthController@logout')->name("api.auth.logout");
-    Route::post("/update", 'AuthController@getAuth')->name("api.auth.get_auth");
-    Route::post("/delete", 'AuthController@getAuth')->name("api.auth.get_auth");
-    Route::get("/groups", 'AuthController@getAuth')->name("api.auth.get_auth");
-    Route::get("/{id}/view", 'AuthController@getAuth')->name("api.auth.get_auth");
+    Route::post("/add", 'GMGroupController@store')->name("api.group_management.group.add");
+    Route::post("/update", 'GMGroupController@update')->name("api.group_management.group.update");
+    Route::post("/delete", 'GMGroupController@destroy')->name("api.group_management.group.delete");
+    Route::get("/groups", 'GMGroupController@index')->name("api.group_management.group.groups");
+    Route::get("/{id}/view", 'GMGroupController@show')->name("api.group_management.group.group");
 });

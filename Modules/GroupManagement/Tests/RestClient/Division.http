@@ -1,0 +1,48 @@
+# @name gm_division_add
+POST {{hostname}}/api/groupmanagement/division/add
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Divisi IT",
+  "is_enable": true,
+  "parent_id": null
+}
+
+###
+
+@divisionId = {{gm_division_add.response.body.return.id}}
+
+# @name gm_division_get
+GET {{hostname}}/api/groupmanagement/division/{{divisionId}}/view
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+###
+@divisionGetId = {{gm_division_get.response.body.return.id}}
+
+# @name gm_division_update
+POST {{hostname}}/api/groupmanagement/division/update
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Divisi IT",
+  "is_enable": true,
+  "parent_id": null,
+  "id": {{divisionGetId}}
+}
+
+
+###
+
+# @name gm_division_delete
+POST {{hostname}}/api/groupmanagement/division/delete
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": {{divisionGetId}}
+}
+

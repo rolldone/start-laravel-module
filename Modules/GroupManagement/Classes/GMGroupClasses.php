@@ -2,11 +2,11 @@
 
 namespace Modules\GroupManagement\Classes;
 
-class GMGroup
+class GMGroupClasses
 {
   private int $id;
   private string $name;
-  private bool $is_active;
+  private bool $is_enable;
 
   /**
    * Get the value of id
@@ -49,21 +49,21 @@ class GMGroup
   }
 
   /**
-   * Get the value of is_active
+   * Get the value of is_enable
    */ 
-  public function getIs_active()
+  public function getIs_enable()
   {
-    return $this->is_active;
+    return $this->is_enable;
   }
 
   /**
-   * Set the value of is_active
+   * Set the value of is_enable
    *
    * @return  self
    */ 
-  public function setIs_active($is_active)
+  public function setIs_enable($is_enable)
   {
-    $this->is_active = $is_active;
+    $this->is_enable = $is_enable;
 
     return $this;
   }

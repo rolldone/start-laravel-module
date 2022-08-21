@@ -2,13 +2,14 @@
 
 namespace Modules\GroupManagement\Classes;
 
-class GMDivision
+use Modules\GroupManagement\Entities\GMDivision;
+
+class GMPositionClasses
 {
   private int $id;
   private string $name;
-  private bool $is_active;
+  private bool $is_enable;
   private GMDivision $gmDivision;
-  private $gmDivisions = [];
 
   /**
    * Get the value of id
@@ -51,21 +52,21 @@ class GMDivision
   }
 
   /**
-   * Get the value of is_active
+   * Get the value of is_enable
    */
-  public function getIs_active()
+  public function getIs_enable()
   {
-    return $this->is_active;
+    return $this->is_enable;
   }
 
   /**
-   * Set the value of is_active
+   * Set the value of is_enable
    *
    * @return  self
    */
-  public function setIs_active($is_active)
+  public function setIs_enable($is_enable)
   {
-    $this->is_active = $is_active;
+    $this->is_enable = $is_enable;
 
     return $this;
   }
@@ -87,32 +88,6 @@ class GMDivision
   {
     $this->gmDivision = $gmDivision;
 
-    return $this;
-  }
-
-  /**
-   * Get the value of gmDivisions
-   */
-  public function getGmDivisions()
-  {
-    return $this->gmDivisions;
-  }
-
-  /**
-   * Set the value of gmDivisions
-   *
-   * @return  self
-   */
-  public function setGmDivisions($gmDivisions)
-  {
-    $this->gmDivisions = $gmDivisions;
-
-    return $this;
-  }
-
-  public function putGmDivisions(GMDivision $gmDivision)
-  {
-    array_push($this->gmDivisions, $gmDivision);
     return $this;
   }
 }

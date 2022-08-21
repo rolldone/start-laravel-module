@@ -3,20 +3,21 @@
 namespace Modules\GroupManagement\Services;
 
 use Modules\GroupManagement\Classes\GMGroup;
+use Modules\GroupManagement\Classes\GMGroupClasses;
 
 class GMGroupService
 {
-  public function addGroup(GMGroup $gMGroup)
+  public function addGroup(GMGroupClasses $gMGroup)
   {
     
   }
 
-  public function updateGroup(GMGroup $gMGroup)
+  public function updateGroup(GMGroupClasses $gMGroup)
   {
     
   }
 
-  public function deleteGroup(GMGroup $gMGroup)
+  public function deleteGroup(GMGroupClasses $gMGroup)
   {
     
   }

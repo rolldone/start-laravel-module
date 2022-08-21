@@ -32,7 +32,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('em_user_position_groups', function (Blueprint $table) {
-            $table->dropForeign(["group_id", "position_id", "division_id", "employee_id"]);
+            $table->dropForeign("em_user_position_groups_group_id_foreign");
+            $table->dropForeign("em_user_position_groups_position_id_foreign");
+            $table->dropForeign("em_user_position_groups_division_id_foreign");
+            $table->dropForeign("em_user_position_groups_employee_id_foreign");
         });
     }
 };
