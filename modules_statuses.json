@@ -1,4 +1,6 @@
 {
     "Auth": true,
-    "Dashboard": true
+    "Dashboard": true,
+    "GroupManagement": true,
+    "Employee": true
 }

@@ -1,0 +1,13 @@
+{
+    "name": "GroupManagement",
+    "alias": "groupmanagement",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GroupManagement\\Providers\\GroupManagementServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
