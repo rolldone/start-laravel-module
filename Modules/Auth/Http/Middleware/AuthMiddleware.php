@@ -39,6 +39,11 @@ class AuthMiddleware extends Middleware
                     Auth::setDefaultDriver($key);
                 } catch (Exception $ex) {
                     Log::error("Error :: ", [$ex]);
+                    return response()->json([
+                        'status' => 'error',
+                        'return' => 'You are not login yet!',
+                        'redirect' => ""
+                    ], 400);
                 }
                 break;
             case 'guest':

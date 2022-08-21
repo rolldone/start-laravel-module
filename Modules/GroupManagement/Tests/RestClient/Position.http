@@ -1,5 +1,5 @@
 @divisionId = 1
-
+@token = {{token}}
 # @name gm_division_get
 GET {{hostname}}/api/groupmanagement/division/{{divisionId}}/view
 Content-Type: application/json

@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class GMGroup extends Model
 {
     use HasFactory;
-    
+
     public $table = "gm_groups";
 
     protected $fillable = [];
+    
+    protected $casts = ['is_enable' => 'boolean'];
 
     protected static function newFactory()
     {

@@ -2,11 +2,14 @@
 
 namespace Modules\GroupManagement\Http\Controllers;
 
+use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Modules\Auth\Http\Controllers\BaseController;
+use Modules\GroupManagement\Classes\GMGroupClasses;
+use Modules\GroupManagement\Services\GMGroupService;
 
-class GMGroupController extends Controller
+class GMGroupController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -14,26 +17,42 @@ class GMGroupController extends Controller
      */
     public function index()
     {
-        return view('groupmanagement::index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('groupmanagement::create');
+        try {
+            $gmGroupService = new GMGroupService();
+            $resData = $gmGroupService->getGroups([]);
+            $resData = [
+                'status' => 'success',
+                'status_code' => 200,
+                'return' => $resData
+            ];
+            return response()->json($resData, $resData['status_code']);
+        } catch (Exception $ex) {
+            return $this->returnSimpleException($ex);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param Request $req
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        try {
+            $gmGroup = new GMGroupClasses();
+            // $gmGroup->setName($req->input("name", null));
+            // $gmGroup->setIs_enable($req->input("is_enable", "true"));
+            // $gmGroupService = new GMGroupService();
+            // $resData = $gmGroupService->addGroup($gmGroup);
+            $resData = [
+                'status' => 'success',
+                'status_code' => 200,
+                'return' => $req->all()
+            ];
+            return response()->json($resData, $resData['status_code']);
+        } catch (Exception $ex) {
+            return $this->returnSimpleException($ex);
+        }
     }
 
     /**
@@ -41,39 +60,67 @@ class GMGroupController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function show($id)
+    public function show(Request $req, $id)
     {
-        return view('groupmanagement::show');
+        try {
+            $gmGroupService = new GMGroupService();
+            $resData = $gmGroupService->getGroupById((int) $id);
+            $resData = [
+                'status' => 'success',
+                'status_code' => 200,
+                'return' => $resData,
+                'id' => (int) $id
+            ];
+            return response()->json($resData, $resData['status_code']);
+        } catch (Exception $ex) {
+            return $this->returnSimpleException($ex);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('groupmanagement::edit');
-    }
 
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $req)
     {
-        //
+        try {
+            $gmGroup = new GMGroupClasses();
+            $gmGroup->setId($req->input("id", null));
+            $gmGroup->setName($req->input("name", null));
+            $gmGroup->setIs_enable($req->input("is_enable", "true"));
+            $gmGroupService = new GMGroupService();
+            $resData = $gmGroupService->updateGroup($gmGroup);
+            $resData = [
+                'status' => 'success',
+                'status_code' => 200,
+                'return' => $resData
+            ];
+            return response()->json($resData, $resData['status_code']);
+        } catch (Exception $ex) {
+            return $this->returnSimpleException($ex);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param Request $request
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Request $req)
     {
-        //
+        try {
+            $gmGroupService = new GMGroupService();
+            $resData = $gmGroupService->deleteGroupById($req->input("id", null));
+            $resData = [
+                'status' => 'success',
+                'status_code' => 200,
+                'return' => $resData
+            ];
+            return response()->json($resData, $resData['status_code']);
+        } catch (Exception $ex) {
+            return $this->returnSimpleException($ex);
+        }
     }
 }

@@ -1,0 +1,46 @@
+# @name gm_group_add
+POST {{hostname}}/api/groupmanagement/group/add
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Pusat",
+  "is_enable": true,
+}
+
+###
+
+@groupId = {{gm_group_add.response.body.return.id}}
+
+# @name gm_group_get
+GET {{hostname}}/api/groupmanagement/group/{{groupId}}/view
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+###
+@groupGetId = {{gm_group_get.response.body.return.id}}
+
+# @name gm_group_update
+POST {{hostname}}/api/groupmanagement/group/update
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Divisi IT",
+  "is_enable": true,
+  "parent_id": null,
+  "id": {{groupGetId}}
+}
+
+###
+
+# @name gm_group_delete
+POST {{hostname}}/api/groupmanagement/group/delete
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "id": {{groupGetId}}
+}
+
