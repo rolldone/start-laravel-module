@@ -2,5 +2,6 @@
     "Auth": true,
     "Dashboard": true,
     "GroupManagement": true,
-    "Employee": true
+    "Employee": true,
+    "UserAdmin": true
 }

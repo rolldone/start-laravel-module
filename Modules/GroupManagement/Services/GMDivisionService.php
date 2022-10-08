@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\GroupManagement\Services;
 
 use Error;
@@ -11,37 +12,36 @@ class GMDivisionService
 
 	public function __construct()
 	{
-		
 	}
 
-	public function addDivision(GMDivisionClasses $gMDivision)
+	/**
+	 * addDivision
+	 *
+	 * @param  mixed $props
+	 * @return GMDivisionClasses
+	 */
+	public function addDivision($props, $exist = null)
 	{
 		try {
-			$gMDivisionModel = new GMDivision();
-			$gMDivisionModel->name = $gMDivision->getName();
-			$gMDivisionModel->is_enable = $gMDivision->getIs_enable();
-			$gMDivisionModel->parent_id = $gMDivision->getParent_id();
+			$gMDivisionModel = $exist ?? new GMDivision();
+			$gMDivisionModel->name = $props["name"];
+			$gMDivisionModel->is_enable = $props["is_enable"] == "true" ? true : false;
+			$gMDivisionModel->parent_id = $props["parent_id"];
 			$gMDivisionModel->save();
-
-			return $gMDivisionModel;
+			return GMDivisionClasses::set($gMDivisionModel);
 		} catch (Exception $ex) {
 			throw $ex;
 		}
 	}
 
-	public function updateDivision(GMDivisionClasses $gMDivision)
+	public function updateDivision($props)
 	{
 		try {
-			$gMDivisionModel = GMDivision::find($gMDivision->getId());
+			$gMDivisionModel = GMDivision::find($props['id']);
 			if ($gMDivisionModel == null) {
 				throw new Error("Division model not found :(");
 			}
-			$gMDivisionModel->name = $gMDivision->getName() ?? $gMDivisionModel->name;
-			$gMDivisionModel->is_enable = $gMDivision->getIs_enable() ?? $gMDivisionModel->is_enable;
-			$gMDivisionModel->parent_id = $gMDivision->getParent_id();
-			$gMDivisionModel->save();
-
-			return $gMDivisionModel;
+			return $this->addDivision($props, $gMDivisionModel);
 		} catch (Exception $ex) {
 			throw $ex;
 		}
@@ -76,12 +76,12 @@ class GMDivisionService
 	public function getDivisionById(int $id)
 	{
 		$gMDivisionModel = GMDivision::find($id);
-		return $gMDivisionModel;
+		return GMDivisionClasses::set($gMDivisionModel);
 	}
 
 	public function getDivisions($props)
 	{
-		$gMDivisionModel = GMDivision::take(100)->skip(0)->get();
-		return $gMDivisionModel;
+		$gMDivisionModel = GMDivision::take($props["take"])->skip($props["take"] * $props["skip"])->with(["parent_division"])->get();
+		return GMDivisionClasses::sets($gMDivisionModel);
 	}
 }

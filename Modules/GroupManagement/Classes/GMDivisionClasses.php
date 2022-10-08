@@ -2,15 +2,57 @@
 
 namespace Modules\GroupManagement\Classes;
 
-class GMDivisionClasses
-{
-  private int $id;
-  private string $name;
-  private bool $is_enable;
-  private ?int $parent_id = null;
-  private GMDivisionClasses $gmDivision;
-  private $gmDivisions = [];
+use DateTime;
+use Exception;
+use Modules\Auth\Classes\BaseClasses;
 
+class GMDivisionClasses extends BaseClasses
+{
+  private ?int $id = null;
+  private ?string $name = null;
+  private ?bool $is_enable = null;
+  private ?int $parent_id = null;
+  private ?GMDivisionClasses $gmDivision = null;
+  private ?array $gmDivisions = [];
+  private ?DateTime $created_at = null;
+  private ?DateTime $updated_at = null;
+  private ?DateTime $deleted_at = null;
+
+  public static function set($props)
+  {
+    try {
+      if ($props == null) {
+        return null;
+      }
+      $self = new GMDivisionClasses();
+      $self->setId($props->id);
+      $self->setName($props->name);
+      $self->setIs_enable($props->is_enable);
+      $self->setGmDivision(self::set($props->parent_division));
+      $self->setParent_id($props->parent_id);
+      $self->setCreated_at(new DateTime($props->created_at));
+      $self->setUpdated_at(new DateTime($props->updated_at));
+      $self->setDeleted_at($props->deleted_at == null ? null : new DateTime($props->deleted_at));
+      return $self;
+    } catch (Exception $ex) {
+      throw $ex;
+    }
+  }
+
+  public function jsonSerialize()
+  {
+    return [
+      "id" => $this->id,
+      "name" => $this->name,
+      "is_enable" => $this->is_enable,
+      "parent_id" => $this->parent_id,
+      "parent_division" => $this->gmDivision,
+      "divisions" => $this->gmDivisions,
+      "created_at" => $this->created_at,
+      "updated_at" => $this->updated_at,
+      "deleted_at" => $this->deleted_at
+    ];
+  }
   /**
    * Get the value of id
    */
@@ -84,7 +126,7 @@ class GMDivisionClasses
    *
    * @return  self
    */
-  public function setGmDivision(GMDivisionClasses $gmDivision)
+  public function setGmDivision(?GMDivisionClasses $gmDivision)
   {
     $this->gmDivision = $gmDivision;
 
@@ -134,6 +176,66 @@ class GMDivisionClasses
   public function setParent_id($parent_id = null)
   {
     $this->parent_id = $parent_id;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of created_at
+   */
+  public function getCreated_at()
+  {
+    return $this->created_at;
+  }
+
+  /**
+   * Set the value of created_at
+   *
+   * @return  self
+   */
+  public function setCreated_at(?DateTime $created_at)
+  {
+    $this->created_at = $created_at;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of updated_at
+   */
+  public function getUpdated_at()
+  {
+    return $this->updated_at;
+  }
+
+  /**
+   * Set the value of updated_at
+   *
+   * @return  self
+   */
+  public function setUpdated_at(?DateTime $updated_at)
+  {
+    $this->updated_at = $updated_at;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of deleted_at
+   */
+  public function getDeleted_at()
+  {
+    return $this->deleted_at;
+  }
+
+  /**
+   * Set the value of deleted_at
+   *
+   * @return  self
+   */
+  public function setDeleted_at(?DateTime $deleted_at)
+  {
+    $this->deleted_at = $deleted_at;
 
     return $this;
   }

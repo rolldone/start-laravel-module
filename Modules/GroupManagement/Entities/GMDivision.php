@@ -19,4 +19,9 @@ class GMDivision extends Model
     {
         // return \Modules\GroupManagement\Database\factories\GMDivisionFactory::new();
     }
+
+    public function parent_division()
+    {
+        return $this->belongsTo(GMDivision::class, "parent_id");
+    }
 }

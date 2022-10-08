@@ -18,7 +18,7 @@ Route::prefix("/groupmanagement/division")->middleware(["auth_api_module:backend
     Route::post("/add", 'GMDivisionController@store')->name("api.group_management.division.add");
     Route::post("/update", 'GMDivisionController@update')->name("api.group_management.division.update");
     Route::post("/delete", 'GMDivisionController@destroy')->name("api.group_management.division.delete");
-    Route::get("/divisions", 'GMDivisionController@index')->name("api.group_management.division.divisions");
+    Route::get("/", 'GMDivisionController@index')->name("api.group_management.division.divisions");
     Route::get("/{id}/view", 'GMDivisionController@show')->name("api.group_management.division.division");
 });
 

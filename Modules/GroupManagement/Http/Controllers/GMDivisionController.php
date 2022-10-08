@@ -15,11 +15,14 @@ class GMDivisionController extends BaseController
 	 * Display a listing of the resource.
 	 * @return Renderable
 	 */
-	public function index()
+	public function index(Request $req)
 	{
 		try {
+			$props = $req->all();
+			$props["take"] = $req->query("take", 100);
+			$props["skip"] = $req->query("skip", 0);
 			$gmDivisionService = new GMDivisionService();
-			$resData = $gmDivisionService->getDivisions([]);
+			$resData = $gmDivisionService->getDivisions($props);
 			$resData = [
 				'status' => 'success',
 				'status_code' => 200,
@@ -39,12 +42,10 @@ class GMDivisionController extends BaseController
 	public function store(Request $req)
 	{
 		try {
-			$gmDivision = new GMDivisionClasses();
-			$gmDivision->setName($req->input("name", null));
-			$gmDivision->setIs_enable($req->input("is_enable", "true"));
-			$gmDivision->setParent_id($req->input("parent_id", null));
+			$props = $req->post();
+			$props["parent_id"] = $req->input("parent_id", null);
 			$gmDivisionService = new GMDivisionService();
-			$resData = $gmDivisionService->addDivision($gmDivision);
+			$resData = $gmDivisionService->addDivision($props);
 			$resData = [
 				'status' => 'success',
 				'status_code' => 200,
@@ -87,13 +88,10 @@ class GMDivisionController extends BaseController
 	public function update(Request $req)
 	{
 		try {
-			$gmDivision = new GMDivisionClasses();
-			$gmDivision->setId($req->input("id", null));
-			$gmDivision->setName($req->input("name", null));
-			$gmDivision->setIs_enable($req->input("is_enable", "true"));
-			$gmDivision->setParent_id($req->input("parent_id", null));
+			$props = $req->post();
+			$props["parent_id"] = $req->input("parent_id", null);
 			$gmDivisionService = new GMDivisionService();
-			$resData = $gmDivisionService->updateDivision($gmDivision);
+			$resData = $gmDivisionService->updateDivision($props);
 			$resData = [
 				'status' => 'success',
 				'status_code' => 200,
