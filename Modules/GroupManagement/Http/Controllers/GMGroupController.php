@@ -5,6 +5,7 @@ namespace Modules\GroupManagement\Http\Controllers;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Modules\Auth\Http\Controllers\BaseController;
 use Modules\GroupManagement\Classes\GMGroupClasses;
 use Modules\GroupManagement\Services\GMGroupService;
@@ -15,11 +16,14 @@ class GMGroupController extends BaseController
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(Request $req)
     {
         try {
+            $props = $req->all();
+            $props["take"] = $req->query("take", 100);
+            $props["skip"] = $req->query("skip", 0);
             $gmGroupService = new GMGroupService();
-            $resData = $gmGroupService->getGroups([]);
+            $resData = $gmGroupService->getGroups($props);
             $resData = [
                 'status' => 'success',
                 'status_code' => 200,
@@ -39,11 +43,9 @@ class GMGroupController extends BaseController
     public function store(Request $req)
     {
         try {
-            $gmGroup = new GMGroupClasses();
-            $gmGroup->setName($req->input("name", null));
-            $gmGroup->setIs_enable($req->input("is_enable", "true"));
+            $props = $req->post();
             $gmGroupService = new GMGroupService();
-            $resData = $gmGroupService->addGroup($gmGroup);
+            $resData = $gmGroupService->addGroup($props);
             $resData = [
                 'status' => 'success',
                 'status_code' => 200,
@@ -77,6 +79,16 @@ class GMGroupController extends BaseController
         }
     }
 
+    public function getEmployees(Request $req, $id)
+    {
+        try{
+            $gmGroupService = new GMGroupService();
+            
+        }catch(Exception $ex){
+            return $this->returnSimpleException($ex);
+        }
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -86,12 +98,9 @@ class GMGroupController extends BaseController
     public function update(Request $req)
     {
         try {
-            $gmGroup = new GMGroupClasses();
-            $gmGroup->setId($req->input("id", null));
-            $gmGroup->setName($req->input("name", null));
-            $gmGroup->setIs_enable($req->input("is_enable", "true"));
+            $props = $req->post();
             $gmGroupService = new GMGroupService();
-            $resData = $gmGroupService->updateGroup($gmGroup);
+            $resData = $gmGroupService->updateGroup($props);
             $resData = [
                 'status' => 'success',
                 'status_code' => 200,
@@ -117,6 +126,38 @@ class GMGroupController extends BaseController
                 'status' => 'success',
                 'status_code' => 200,
                 'return' => $resData
+            ];
+            return response()->json($resData, $resData['status_code']);
+        } catch (Exception $ex) {
+            return $this->returnSimpleException($ex);
+        }
+    }
+
+    public function selectCompany(Request $req)
+    {
+        try {
+            $props = $req->post();
+            $gmGroupService = new GMGroupService();
+            $resData = $gmGroupService->getGroupById($props["id"]);
+            Cache::add("company", $resData);
+            $resData = [
+                'status' => 'success',
+                'status_code' => 200,
+                'return' => Cache::get("company", null)
+            ];
+            return response()->json($resData, $resData['status_code']);
+        } catch (Exception $ex) {
+            return $this->returnSimpleException($ex);
+        }
+    }
+
+    public function getCurrentCompany(Request $req)
+    {
+        try {
+            $resData = [
+                'status' => 'success',
+                'status_code' => 200,
+                'return' => Cache::get("company", null)
             ];
             return response()->json($resData, $resData['status_code']);
         } catch (Exception $ex) {

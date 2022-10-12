@@ -69,6 +69,16 @@ class EmployeeService
     }
   }
 
+  public function getEmployeeByUserId(int $user_id)
+  {
+    try {
+      $employeeModel = EMEmployee::where("user_id", "=", $user_id)->first();
+      return EmployeeDto::set($employeeModel);
+    } catch (Exception $ex) {
+      throw $ex;
+    }
+  }
+
   /**
    * getEmployees
    *

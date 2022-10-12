@@ -17,6 +17,6 @@ Route::prefix("/employee")->middleware(["auth_api_module:backend"])->group(funct
     Route::post("/add", 'EmployeeController@store')->name("api.employee.add");
     Route::post("/update", 'EmployeeController@update')->name("api.employee.update");
     Route::post("/delete", 'EmployeeController@destroy')->name("api.employee.delete");
-    Route::get("/{id}/view", 'EmployeeController@view')->name("api.employee.employee");
+    Route::get("/{id}/view", 'EmployeeController@show')->name("api.employee.employee");
     Route::get("/", 'EmployeeController@index')->name("api.employee.employees");
 });

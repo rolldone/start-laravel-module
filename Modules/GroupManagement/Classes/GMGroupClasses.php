@@ -23,9 +23,9 @@ class GMGroupClasses extends BaseClasses
   {
     if ($props == null) return null;
     $resClass = new GMGroupClasses();
-    $resClass->setId($props["id"]);
-    $resClass->setName($props["name"]);
-    $resClass->setIs_enable($props["is_enable"]);
+    $resClass->setId($props->id);
+    $resClass->setName($props->name);
+    $resClass->setIs_enable($props->is_enable);
     return $resClass;
   }
 

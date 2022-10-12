@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Modules\Auth\Http\Controllers\BaseController;
-use Modules\GroupManagement\Classes\GMPositionClasses;
 use Modules\GroupManagement\Services\GMPositionService;
 
 class GMPositionController extends BaseController
@@ -15,11 +14,14 @@ class GMPositionController extends BaseController
 	 * Display a listing of the resource.
 	 * @return Renderable
 	 */
-	public function index()
+	public function index(Request $req)
 	{
 		try {
+			$props = $req->all();
+			$props["take"] = $req->query("take", 100);
+			$props["skip"] = $req->query("skip", 0);
 			$gmPositionService = new GMPositionService();
-			$resData = $gmPositionService->getPositions([]);
+			$resData = $gmPositionService->getPositions($props);
 			$resData = [
 				'status' => 'success',
 				'status_code' => 200,
@@ -39,12 +41,9 @@ class GMPositionController extends BaseController
 	public function store(Request $req)
 	{
 		try {
-			$gmPosition = new GMPositionClasses();
-			$gmPosition->setName($req->input("name", null));
-			$gmPosition->setIs_enable($req->input("is_enable", "true"));
-			$gmPosition->setDivision_id((int) $req->input("division_id", null));
+			$props = $req->post();
 			$gmPositionService = new GMPositionService();
-			$resData = $gmPositionService->addPosition($gmPosition);
+			$resData = $gmPositionService->addPosition($props);
 			$resData = [
 				'status' => 'success',
 				'status_code' => 200,
@@ -86,13 +85,9 @@ class GMPositionController extends BaseController
 	public function update(Request $req)
 	{
 		try {
-			$gmDivision = new GMPositionClasses();
-			$gmDivision->setId($req->input("id", null));
-			$gmDivision->setName($req->input("name", null));
-			$gmDivision->setIs_enable($req->input("is_enable", "true"));
-			$gmDivision->setDivision_id((int) $req->input("division_id", null));
-			$gmDivisionService = new GMPositionService();
-			$resData = $gmDivisionService->updatePosition($gmDivision);
+			$props = $req->post();
+			$gmPositionService = new GMPositionService();
+			$resData = $gmPositionService->updatePosition($props);
 			$resData = [
 				'status' => 'success',
 				'status_code' => 200,

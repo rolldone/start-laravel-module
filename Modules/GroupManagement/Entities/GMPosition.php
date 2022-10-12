@@ -9,7 +9,7 @@ class GMPosition extends Model
 {
     use HasFactory;
 
-    public $table = "gm_positions";
+    public static $table = "gm_positions";
 
     protected $fillable = [];
 
@@ -18,5 +18,10 @@ class GMPosition extends Model
     protected static function newFactory()
     {
         // return \Modules\GroupManagement\Database\factories\GMPositionFactory::new();
+    }
+
+    public function division()
+    {
+        return $this->belongsTo(GMDivision::class, "division_id", "id");
     }
 }

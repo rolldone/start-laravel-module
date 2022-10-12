@@ -9,34 +9,40 @@ use Modules\GroupManagement\Entities\GMPosition;
 
 class GMPositionService
 {
-  public function addPosition(GMPositionClasses $gMPosition)
+  /**
+   * addPosition
+   *
+   * @param  mixed $props
+   * @return void
+   */
+  public function addPosition($props, ?GMPosition $exist = null)
   {
     try {
-      $gmPositionModel = new GMPosition();
-      $gmPositionModel->name = $gMPosition->getName();
-      $gmPositionModel->is_enable = $gMPosition->getIs_enable();
-      $gmPositionModel->division_id = $gMPosition->getDivision_id();
+      $gmPositionModel = $exist ?? new GMPosition();
+      $gmPositionModel->name = $props["name"];
+      $gmPositionModel->is_enable = $props["is_enable"] == "true" ? true : false;
+      $gmPositionModel->division_id = $props["division_id"];
       $gmPositionModel->save();
-
-      return $gmPositionModel;
+      return GMPositionClasses::set($gmPositionModel);
     } catch (Exception $ex) {
       throw $ex;
     }
   }
 
-  public function updatePosition(GMPositionClasses $gMPosition)
+  /**
+   * updatePosition
+   *
+   * @param  mixed $props
+   * @return void
+   */
+  public function updatePosition($props)
   {
     try {
-      $gmPositionModel = GMPosition::find($gMPosition->getId());
+      $gmPositionModel = GMPosition::find($props["id"]);
       if ($gmPositionModel == null) {
         throw new Error("Division model not found :(");
       }
-      $gmPositionModel->name = $gMPosition->getName() ?? $gmPositionModel->name;
-      $gmPositionModel->is_enable = $gMPosition->getIs_enable() ?? $gmPositionModel->is_enable;
-      $gmPositionModel->division_id = $gMPosition->getDivision_id() ?? $gmPositionModel->division_id;
-      $gmPositionModel->save();
-
-      return $gmPositionModel;
+      return $this->addPosition($props, $gmPositionModel);
     } catch (Exception $ex) {
       throw $ex;
     }
@@ -66,18 +72,17 @@ class GMPositionService
 
   public function getPositionById_IdUser(int $id, int $user_id)
   {
-    
   }
 
   public function getPositionById(int $id)
   {
     $gMPositionModel = GMPosition::find($id);
-    return $gMPositionModel;
+    return GMPositionClasses::set($gMPositionModel);
   }
 
   public function getPositions($props)
   {
-    $gMDivisionModel = GMPosition::take(100)->skip(0)->get();
-    return $gMDivisionModel;
+    $gMDivisionModel = GMPosition::take($props["take"])->skip($props["take"] * $props["skip"])->get();
+    return GMPositionClasses::sets($gMDivisionModel);
   }
 }

@@ -4,51 +4,48 @@ namespace Modules\GroupManagement\Services;
 
 use Error;
 use Exception;
+use Modules\Employee\Entities\EMEmployee;
 use Modules\GroupManagement\Classes\GMGroupClasses;
 use Modules\GroupManagement\Entities\GMGroup;
 
 class GMGroupService
 {
-  public function addGroup(GMGroupClasses $gMGroup)
+  public function addGroup($props, ?GMGroup $exist = null)
   {
     try {
-      $gmPositionModel = new GMGroup();
-      $gmPositionModel->name = $gMGroup->getName();
-      $gmPositionModel->is_enable = $gMGroup->getIs_enable();
-      $gmPositionModel->save();
+      $gmGroupModel = $exist ?? new GMGroup();
+      $gmGroupModel->name = $props["name"];
+      $gmGroupModel->is_enable = $props["is_enable"] == "true" ? true : false;
+      $gmGroupModel->save();
 
-      return $gmPositionModel;
+      return GMGroupClasses::set($gmGroupModel);
     } catch (Exception $ex) {
       throw $ex;
     }
   }
 
-  public function updateGroup(GMGroupClasses $gMGroup)
+  public function updateGroup($props)
   {
     try {
-      $gmPositionModel = GMGroup::find($gMGroup->getId());
-      if ($gmPositionModel == null) {
+      $gmGroupModel = GMGroup::find($props["id"]);
+      if ($gmGroupModel == null) {
         throw new Error("Division model not found :(");
       }
-      $gmPositionModel->name = $gMGroup->getName() ?? $gmPositionModel->name;
-      $gmPositionModel->is_enable = $gMGroup->getIs_enable() ?? $gmPositionModel->is_enable;
-      $gmPositionModel->save();
-
-      return $gmPositionModel;
+      return $this->addGroup($props, $gmGroupModel);
     } catch (Exception $ex) {
       throw $ex;
     }
   }
 
-  public function deleteGroup(GMGroupClasses $gMGroup)
+  public function deleteGroup($ids = [])
   {
-    $gMGroupModel = GMGroup::find($gMGroup->getId());
-    if ($gMGroupModel == null) {
-      throw new Error("Division model not found :(");
-    }
-    $gMGroupModel = $gMGroupModel->delete();
+    // $gMGroupModel = GMGroup::find($gMGroup->getId());
+    // if ($gMGroupModel == null) {
+    //   throw new Error("Division model not found :(");
+    // }
+    // $gMGroupModel = $gMGroupModel->delete();
 
-    return $gMGroupModel;
+    // return $gMGroupModel;
   }
 
   public function deleteGroupById(int $id)
@@ -69,12 +66,12 @@ class GMGroupService
   public function getGroupById(int $id)
   {
     $gMGroupModel = GMGroup::find($id);
-    return $gMGroupModel;
+    return GMGroupClasses::set($gMGroupModel);
   }
 
   public function getGroups($props)
   {
-    $gMDivisionModel = GMGroup::take(100)->skip(0)->get();
-    return $gMDivisionModel;
+    $gMGroupModel = GMGroup::take($props["take"])->skip($props["take"] * $props["skip"])->get();
+    return GMGroupClasses::sets($gMGroupModel);
   }
 }
