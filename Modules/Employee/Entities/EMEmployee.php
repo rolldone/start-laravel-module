@@ -18,4 +18,9 @@ class EMEmployee extends Model
     {
         // return \Modules\Employee\Database\factories\EMEmployeeFactory::new();
     }
+
+    public function user_position_group()
+    {
+        return $this->hasOne(EMUserPositionGroup::class, "employee_id", "id");
+    }
 }

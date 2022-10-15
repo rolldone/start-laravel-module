@@ -7,7 +7,6 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Modules\Auth\Http\Controllers\BaseController;
-use Modules\GroupManagement\Classes\GMGroupClasses;
 use Modules\GroupManagement\Services\GMGroupService;
 
 class GMGroupController extends BaseController
@@ -81,10 +80,9 @@ class GMGroupController extends BaseController
 
     public function getEmployees(Request $req, $id)
     {
-        try{
+        try {
             $gmGroupService = new GMGroupService();
-            
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             return $this->returnSimpleException($ex);
         }
     }

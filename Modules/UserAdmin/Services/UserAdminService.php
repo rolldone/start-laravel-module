@@ -1,8 +1,12 @@
 <?php
 
-namespace Modules\UserAdmin\Http\Controllers;
+namespace Modules\UserAdmin\Services;
 
+use Error;
+use Exception;
+use Modules\UserAdmin\Classes\UserAdminClasses;
 use Modules\UserAdmin\Entities\UserAdmin;
+use Modules\UserAdmin\Entities\UserAdminBasicSearch;
 
 class UserAdminService
 {
@@ -12,8 +16,13 @@ class UserAdminService
    * @param  mixed $props
    * @return UserAdmin
    */
-  public function addUser($props)
+  public function addUser($props, UserAdmin $exist)
   {
+    try {
+      $user = $exist ?? new UserAdmin();
+    } catch (Exception $ex) {
+      throw $ex;
+    }
   }
 
   /**
@@ -24,7 +33,15 @@ class UserAdminService
    */
   public function updateUser($props)
   {
-    
+    try {
+      $user = UserAdmin::find($props["id"]);
+      if ($user == null) {
+        throw new Error("Data is not found");
+      }
+      return $this->addUser($props, $user);
+    } catch (Exception $ex) {
+      throw $ex;
+    }
   }
 
   /**
@@ -35,6 +52,12 @@ class UserAdminService
    */
   public function getUserById(int $id)
   {
+    try {
+      $userAdmin = UserAdmin::find($id);
+      return UserAdminClasses::set($userAdmin);
+    } catch (Exception $ex) {
+      throw $ex;
+    }
   }
 
   /**
@@ -45,6 +68,12 @@ class UserAdminService
    */
   public function getUserByEmail(string $email)
   {
+    try {
+      $userAdmin = UserAdmin::where("email", "=", $email)->first();
+      return UserAdminClasses::set($userAdmin);
+    } catch (Exception $ex) {
+      throw $ex;
+    }
   }
 
   /**
@@ -55,6 +84,17 @@ class UserAdminService
    */
   public function getUsers($props)
   {
+    try {
+      $userAdmin = new UserAdminBasicSearch();
+      if ($props["search"] != null) {
+        $userAdmin = $userAdmin->search($props["search"]);
+      }
+      $userAdmin = $userAdmin->take($props["take"])->skip($props["skip"] * $props["take"]);
+      $userAdmin = $userAdmin->get();
+      return UserAdminClasses::sets($userAdmin);
+    } catch (Exception $ex) {
+      throw $ex;
+    }
   }
 
 

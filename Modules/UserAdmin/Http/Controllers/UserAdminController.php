@@ -7,18 +7,34 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Auth\Http\Controllers\BaseController;
+use Modules\UserAdmin\Services\UserAdminService;
 
 class UserAdminController extends BaseController
 {
+    protected function returnUserAdminService()
+    {
+        return new UserAdminService();
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(Request $req)
     {
-        try{
-            
-        }catch(Exception $ex){
+        try {
+            $props = $this->getBaseQueryRequest($req, []);
+            $props["take"] = $req->query("take", 100);
+            $props["skip"] = $req->query("skip", 0);
+            $userService = $this->returnUserAdminService();
+            $resData = $userService->getUsers($props);
+            $resData = [
+                'status' => 'success',
+                'status_code' => 200,
+                'return' => $resData
+            ];
+            return response()->json($resData, $resData["status_code"]);
+        } catch (Exception $ex) {
             return $this->returnSimpleException($ex);
         }
     }

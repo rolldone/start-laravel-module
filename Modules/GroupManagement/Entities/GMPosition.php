@@ -9,7 +9,7 @@ class GMPosition extends Model
 {
     use HasFactory;
 
-    public static $table = "gm_positions";
+    public $table = "gm_positions";
 
     protected $fillable = [];
 

@@ -3,5 +3,7 @@
     "Dashboard": true,
     "GroupManagement": true,
     "Employee": true,
-    "UserAdmin": true
+    "UserAdmin": true,
+    "PortalGroup": true,
+    "Privilege": true
 }

@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/useradmin', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/useradmin', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::prefix("/user")->middleware(["auth_api_module:backend"])->group(function () {
+    Route::post("/add", "UserAdminController@index")->name("api.user_admin.user.add");
+    Route::post("/update", "UserAdminController@index")->name("api.user_admin.user.update");
+    Route::get("/users", "UserAdminController@index")->name("api.user_admin.user.users");
+    Route::get("/{id}/view", "UserAdminController@index")->name("api.user_admin.user.user");
 });

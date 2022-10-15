@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Modules\Auth\Http\Controllers\BaseController;
-use Modules\GroupManagement\Classes\GMDivisionClasses;
 use Modules\GroupManagement\Services\GMDivisionService;
 
 class GMDivisionController extends BaseController

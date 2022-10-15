@@ -39,18 +39,3 @@ Route::prefix("/groupmanagement/group")->middleware(["auth_api_module:backend"])
     Route::get("/{id}/view", 'GMGroupController@show')->name("api.group_management.group.group");
     Route::get("/", 'GMGroupController@index')->name("api.group_management.group.groups");
 });
-
-Route::prefix("/groupmanagement/portal")->middleware(["auth_api_module:backend"])->group(function () {
-    Route::post("/add", "GMPortalController@addPortal")->name("api.group_management.portal.add");
-    Route::post("/update", "GMPortalController@updatePortal")->name("api.group_management.portal.update");
-    Route::get("/portals/{table_name}", "GMPortalController@getPortalBy_TableName")->name("api.group_management.portal.portals");
-    Route::get("/{id}/view", "GMPortalController@getPortalById")->name("api.group_management.portal.portal");
-    // Route::get("/{gm_table_name}", "GMPortalController@getPortalBy_TableName")->name("api.group_management.portal.portal_by_id_and_table");
-});
-
-Route::prefix("/groupmanagement/portal-selected")->middleware(["auth_api_module:backend"])->group(function () {
-    Route::post("/add", "GMPortalController@addPortalSelected")->name("api.group_management.portal_selected.add");
-    Route::post("/update", "GMPortalController@updatePortalSelected")->name("api.group_management.portal_selected.update");
-    Route::get("/current", "GMPortalController@getCurrentPortalSelected")->name("api.group_management.portal_selected.current");
-    Route::get("/current/delete", "GMPortalController@deletePortalSelected")->name("api.group_management.portal_selected.delete_current");
-});

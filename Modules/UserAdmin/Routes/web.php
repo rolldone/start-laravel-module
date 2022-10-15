@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('useradmin')->group(function() {
-    Route::get('/', 'UserAdminController@index');
-});
+// Route::prefix('useradmin')->group(function() {
+//     Route::get('/', 'UserAdminController@index');
+// });

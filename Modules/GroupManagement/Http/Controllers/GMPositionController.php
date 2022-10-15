@@ -10,6 +10,11 @@ use Modules\GroupManagement\Services\GMPositionService;
 
 class GMPositionController extends BaseController
 {
+	public function returnPositionService()
+	{
+		return new GMPositionService();
+	}
+	
 	/**
 	 * Display a listing of the resource.
 	 * @return Renderable
@@ -20,7 +25,7 @@ class GMPositionController extends BaseController
 			$props = $req->all();
 			$props["take"] = $req->query("take", 100);
 			$props["skip"] = $req->query("skip", 0);
-			$gmPositionService = new GMPositionService();
+			$gmPositionService = $this->returnPositionService();
 			$resData = $gmPositionService->getPositions($props);
 			$resData = [
 				'status' => 'success',
@@ -42,7 +47,7 @@ class GMPositionController extends BaseController
 	{
 		try {
 			$props = $req->post();
-			$gmPositionService = new GMPositionService();
+			$gmPositionService = $this->returnPositionService();
 			$resData = $gmPositionService->addPosition($props);
 			$resData = [
 				'status' => 'success',
@@ -63,7 +68,7 @@ class GMPositionController extends BaseController
 	public function show($id)
 	{
 		try {
-			$gmDivisionService = new GMPositionService();
+			$gmDivisionService = $this->returnPositionService();
 			$resData = $gmDivisionService->getPositionById((int) $id);
 			$resData = [
 				'status' => 'success',
@@ -86,7 +91,7 @@ class GMPositionController extends BaseController
 	{
 		try {
 			$props = $req->post();
-			$gmPositionService = new GMPositionService();
+			$gmPositionService = $this->returnPositionService();
 			$resData = $gmPositionService->updatePosition($props);
 			$resData = [
 				'status' => 'success',
@@ -107,7 +112,7 @@ class GMPositionController extends BaseController
 	public function destroy(Request $req)
 	{
 		try {
-			$gmDivisionService = new GMPositionService();
+			$gmDivisionService = $this->returnPositionService();
 			$resData = $gmDivisionService->deletePositionById($req->input("id", null));
 			$resData = [
 				'status' => 'success',

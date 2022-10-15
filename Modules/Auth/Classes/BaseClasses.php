@@ -4,11 +4,13 @@
 namespace Modules\Auth\Classes;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 use JsonSerializable;
 use Modules\Auth\Classes\Interfaces\SetDataInterface;
 
 abstract class BaseClasses implements JsonSerializable, SetDataInterface
 {
+  public static int $timesCall = 0;
   /**
    * sets
    *

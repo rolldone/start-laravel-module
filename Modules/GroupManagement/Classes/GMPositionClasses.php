@@ -8,14 +8,14 @@ use Modules\GroupManagement\Entities\GMDivision;
 
 class GMPositionClasses extends BaseClasses
 {
-  private int $id;
-  private string $name;
-  private bool $is_enable;
-  private ?GMDivisionClasses $division = null;
-  private ?int $division_id = null;
-  private ?DateTime $created_at = null;
-  private ?DateTime $updated_at = null;
-  private ?DateTime $deleted_at = null;
+  protected int $id;
+  protected string $name;
+  protected bool $is_enable;
+  protected ?GMDivisionClasses $division = null;
+  protected ?int $division_id = null;
+  protected ?DateTime $created_at = null;
+  protected ?DateTime $updated_at = null;
+  protected ?DateTime $deleted_at = null;
 
   public static function set($props)
   {

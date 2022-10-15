@@ -1,0 +1,13 @@
+{
+    "name": "PortalGroup",
+    "alias": "portalgroup",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PortalGroup\\Providers\\PortalGroupServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
