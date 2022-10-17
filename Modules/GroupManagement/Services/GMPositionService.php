@@ -6,6 +6,7 @@ use Error;
 use Exception;
 use Modules\GroupManagement\Classes\GMPositionClasses;
 use Modules\GroupManagement\Entities\GMPosition;
+use Modules\GroupManagement\Entities\GMPositionBasicSearch;
 
 class GMPositionService
 {
@@ -82,7 +83,10 @@ class GMPositionService
 
   public function getPositions($props)
   {
-    $gMDivisionModel = GMPosition::take($props["take"])->skip($props["take"] * $props["skip"])->get();
-    return GMPositionClasses::sets($gMDivisionModel);
+    $gmPositionModel = GMPositionBasicSearch::take($props["take"])->skip($props["take"] * $props["skip"]);
+    $gmPositionModel = $gmPositionModel->with(["division"]);
+    $gmPositionModel = $gmPositionModel->search($props["search"]);
+    $gmPositionModel = $gmPositionModel->get();
+    return GMPositionClasses::sets($gmPositionModel);
   }
 }

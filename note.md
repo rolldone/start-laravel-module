@@ -1,6 +1,9 @@
-Stack Depedency :
+Stack Depedency Level:
 - Auth
 - UserAdmin
 - GroupManagement
 - Employee
-- PortalGroup | Privilege
+- PortalGroup
+- Privilege
+- [...n]
+- Your App

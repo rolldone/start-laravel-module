@@ -42,6 +42,6 @@ Route::prefix("/portalgroup/portal")->middleware(["auth_api_module:backend"])->g
 Route::prefix("/portalgroup/portal-selected")->middleware(["auth_api_module:backend"])->group(function () {
     Route::post("/add", "PGPortalController@addPortalSelected")->name("api.portal_group.portal_selected.add");
     Route::post("/update", "PGPortalController@updatePortalSelected")->name("api.portal_group.portal_selected.update");
-    Route::get("/current", "PGPortalController@getCurrentPortalSelected")->name("api.portal_group.portal_selected.current");
+    Route::get("/current/group", "PGPortalController@getCurrentGroupByCurrentPortalSelected")->name("api.portal_group.portal_selected.current");
     Route::get("/current/delete", "PGPortalController@deletePortalSelected")->name("api.portal_group.portal_selected.delete_current");
 });

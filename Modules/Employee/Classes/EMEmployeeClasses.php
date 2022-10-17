@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Employee\Entities\dto;
+namespace Modules\Employee\Classes;
 
 use DateTime;
 use Exception;
@@ -8,19 +8,19 @@ use JsonSerializable;
 use Modules\Auth\Classes\BaseClasses;
 use Modules\Employee\Entities\EMEmployee;
 
-class EmployeeDto extends BaseClasses
+class EMEmployeeClasses extends BaseClasses
 {
-  private ?int $id;
-  private ?string $first_name;
-  private ?string $last_name;
-  private ?string $address;
-  private ?string $phone_number;
-  private ?string $email;
-  private ?int $status = null;
-  private ?int $user_id = null;
-  private ?DateTime $created_at = null;
-  private ?DateTime $updated_at = null;
-  private ?DateTime $deleted_at = null;
+  protected ?int $id;
+  protected ?string $first_name;
+  protected ?string $last_name;
+  protected ?string $address;
+  protected ?string $phone_number;
+  protected ?string $email;
+  protected ?int $status = null;
+  protected ?int $user_id = null;
+  protected ?DateTime $created_at = null;
+  protected ?DateTime $updated_at = null;
+  protected ?DateTime $deleted_at = null;
 
   public function jsonSerialize()
   {
@@ -51,7 +51,7 @@ class EmployeeDto extends BaseClasses
       if ($props == null) {
         return null;
       }
-      $self = new EmployeeDto();
+      $self = new EMEmployeeClasses();
       $self->setFirst_name($props->first_name);
       $self->setLast_name($props->last_name);
       $self->setId($props->id);

@@ -14,12 +14,15 @@ class UserAdminService
    * addUser
    *
    * @param  mixed $props
-   * @return UserAdmin
+   * @return UserAdminClasses
    */
   public function addUser($props, UserAdmin $exist)
   {
     try {
       $user = $exist ?? new UserAdmin();
+      $user->email = $props["email"];
+      $user->save();
+      return UserAdminClasses::set($user);
     } catch (Exception $ex) {
       throw $ex;
     }
@@ -29,7 +32,7 @@ class UserAdminService
    * updateUser
    *
    * @param  mixed $props
-   * @return UserAdmin
+   * @return UserAdminClasses
    */
   public function updateUser($props)
   {

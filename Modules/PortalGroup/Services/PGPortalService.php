@@ -5,13 +5,17 @@ namespace Modules\PortalGroup\Services;
 use Error;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Modules\PortalGroup\Classes\PGEmployeeClasses;
 use Modules\PortalGroup\Classes\PGPortalClasses;
 use Modules\PortalGroup\Classes\PGPortalGroupClasses;
 use Modules\PortalGroup\Classes\PGPortalSelectedClasses;
+use Modules\PortalGroup\Classes\PGPositionClasses;
+use Modules\PortalGroup\Classes\PGUserPositionGroupClasses;
 use Modules\PortalGroup\Entities\PGPortal;
 use Modules\PortalGroup\Entities\PGPortalGroup;
 use Modules\PortalGroup\Entities\PGPortalSelected;
-use Modules\UserAdmin\Entities\UserAdmin;
+use Modules\PortalGroup\Entities\PGPosition;
+use Modules\PortalGroup\Entities\PGUserPositionGroupBasicSearch;
 
 class PGPortalService
 {
@@ -66,12 +70,31 @@ class PGPortalService
     }
   }
 
-  public function getOwnPortals(int $pg_portal_id, int $user_id)
+  public function getOwnPortals(?int $pg_portal_id, int $user_id)
   {
     try {
       $pgPortalGroup = PGPortalGroup::with(["selected" => function ($q) use ($user_id) {
         return $q->where("user_id", "=", $user_id);
       }])->where("pg_portal_id", "=", $pg_portal_id)->get();
+      return PGPortalGroupClasses::sets($pgPortalGroup);
+    } catch (Exception $ex) {
+      throw $ex;
+    }
+  }
+
+  public function getOwnPortalsByPositionId(int $user_id)
+  {
+    try {
+      $upgModel = PGUserPositionGroupBasicSearch::whereHas("employee", function ($q) use ($user_id) {
+        return $q->where("user_id", $user_id);
+      })->where("is_enabled", true)->first();
+      $upgModel = PGUserPositionGroupClasses::set($upgModel);
+      $employeeClasses = PGEmployeeClasses::set($upgModel->getEmployee());
+      $positionModel = PGPosition::find($upgModel->getPosition_id());
+      $positionClasses = PGPositionClasses::set($positionModel);
+      $pgPortalGroup = PGPortalGroup::with(["selected" => function ($q) use ($employeeClasses) {
+        return $q->where("user_id", "=", $employeeClasses->getUser_id());
+      }])->where("pg_portal_id", "=", $positionClasses->getPg_portal_id())->get();
       return PGPortalGroupClasses::sets($pgPortalGroup);
     } catch (Exception $ex) {
       throw $ex;

@@ -3,7 +3,6 @@
 namespace Modules\PortalGroup\Classes;
 
 use DateTime;
-use Illuminate\Support\Facades\Log;
 use Modules\Auth\Classes\BaseClasses;
 
 class PGPortalGroupClasses  extends BaseClasses

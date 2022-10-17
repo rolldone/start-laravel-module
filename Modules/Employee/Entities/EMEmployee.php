@@ -4,7 +4,6 @@ namespace Modules\Employee\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Employee\Entities\dto\EmployeeDto;
 
 class EMEmployee extends Model
 {

@@ -21,9 +21,13 @@ Route::group([
     // return $request->user();
     Route::post("/login", 'AuthController@loginApi')->name("api.auth.login");
     Route::post("/register", 'AuthController@register')->name("api.auth.register");
+
+    // Notif
+    Route::post("/mail/account-created","AuthController@mailAccountCreated")->name("api.auth.mail.account_created");
 });
 
 Route::prefix("auth")->middleware(["auth_api_module:backend"])->group(function () {
     Route::get("/logout", 'AuthController@logout')->name("api.auth.logout");
     Route::get("/get", 'AuthController@getAuth')->name("api.auth.get_auth");
+    Route::post("/register-without-password", 'AuthController@registerWithoutPassword')->name("api.auth.register_without_password");
 });

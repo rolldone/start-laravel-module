@@ -3,14 +3,14 @@
 namespace Modules\Auth\Http\Controllers;
 
 use Exception;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Modules\Auth\Classes\UserClasses;
 use Modules\Auth\Services\AuthService;
 use Modules\Auth\Transformers\AuthResource;
+use Illuminate\Support\Str;
 
 class AuthController extends BaseController
 {
@@ -95,7 +95,32 @@ class AuthController extends BaseController
 			];
 			return response()->json($resData, $resData["status_code"]);
 		} catch (Exception $ex) {
-			Log::debug("aaaaaaaaaaaaaaaaaaaaaaa");
+			return $this->returnSimpleException($ex);
+		}
+	}
+
+	/**
+	 * registerWithoutPassword
+	 *
+	 * @param  Request $req
+	 * @return void
+	 */
+	public function registerWithoutPassword(Request $req)
+	{
+		try {
+			$props = $req->post();
+			$authService = new AuthService();
+			$props["password"] = Str::random(10);
+			$resData = $authService->registerWithoutPassword($props);
+			$props["to"] = $props["email"];
+			$mailSend = $authService->mailAccountCreatedWithPassword($props);
+			$resData = [
+				'status' => 'success',
+				'status_code' => 200,
+				'return' => $resData
+			];
+			return response()->json($resData, $resData["status_code"]);
+		} catch (Exception $ex) {
 			return $this->returnSimpleException($ex);
 		}
 	}
@@ -121,6 +146,18 @@ class AuthController extends BaseController
 				'return' => Auth::user()
 			];
 			return response()->json($resData, $resData["status_code"]);
+		} catch (Exception $ex) {
+			return $this->returnSimpleException($ex);
+		}
+	}
+
+	public function mailAccountCreated(Request $req)
+	{
+		try {
+			$props = $req->post();
+			$authService = new AuthService();
+			$resData = $authService->mailAccountCreatedWithPassword($props);
+			return $resData;
 		} catch (Exception $ex) {
 			return $this->returnSimpleException($ex);
 		}

@@ -5,8 +5,12 @@ namespace Modules\Employee\Http\Controllers;
 use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Modules\Auth\Http\Controllers\BaseController;
 use Modules\Employee\Services\EmployeeService;
+use Modules\Employee\Services\EMUserAdminService;
+use Modules\GroupManagement\Helpers\GMGroupHelper;
 
 class EmployeeController extends BaseController
 {
@@ -17,11 +21,30 @@ class EmployeeController extends BaseController
     public function index(Request $req)
     {
         try {
-            $props = $req->all();
+            $props = $this->getBaseQueryRequest($req, []);
             $props["take"] = $req->query("take", 100);
             $props["skip"] = $req->query("skip", 0);
             $employeeService = new EmployeeService();
             $resData = $employeeService->getEmployees($props);
+            $resData = [
+                'status' => 'success',
+                'status_code' => 200,
+                'return' => $resData
+            ];
+            return response()->json($resData);
+        } catch (Exception $ex) {
+            return $this->returnSimpleException($ex);
+        }
+    }
+
+    public function getEmployeeByHasCurrentGroup_AndFree(Request $req, int $group_id)
+    {
+        try {
+            $props = $this->getBaseQueryRequest($req, []);
+            $props["take"] = $req->query("take", 100);
+            $props["skip"] = $req->query("skip", 0);
+            $employeeService = new EmployeeService();
+            $resData = $employeeService->getEmployeeByHasCurrentGroup_AndFree($group_id, $props);
             $resData = [
                 'status' => 'success',
                 'status_code' => 200,
@@ -105,6 +128,13 @@ class EmployeeController extends BaseController
             $props = $req->post();
             $employeeService = new EmployeeService();
             $resData = $employeeService->updateEmployee($props);
+            if ($resData->getUser_id() != null) {
+                $userService = new EMUserAdminService();
+                $userService->updateUser([
+                    'id' => $resData->getUser_id(),
+                    'email' => $resData->getEmail()
+                ]);
+            }
             $resData = [
                 'status' => 'success',
                 'status_code' => 200,

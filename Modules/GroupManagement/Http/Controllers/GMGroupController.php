@@ -78,16 +78,6 @@ class GMGroupController extends BaseController
         }
     }
 
-    public function getEmployees(Request $req, $id)
-    {
-        try {
-            $gmGroupService = new GMGroupService();
-        } catch (Exception $ex) {
-            return $this->returnSimpleException($ex);
-        }
-    }
-
-
     /**
      * Update the specified resource in storage.
      * @param Request $request

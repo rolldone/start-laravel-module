@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
 class BaseController extends Controller
 {
   /* --------------------------------
@@ -23,7 +22,7 @@ class BaseController extends Controller
         $exResponse['message'] = $ex->getMessage();
         $exResponse['line'] = $ex->getLine();
         $exResponse['file'] = $ex->getFile();
-        $exResponse['trace'] = $ex->getTrace();
+        // $exResponse['trace'] = $ex->getTrace();
         Log::error(\array_merge($exResponse, [
           'trace' => '=>'
         ]));

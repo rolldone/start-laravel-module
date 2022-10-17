@@ -2,10 +2,9 @@
 
 namespace Modules\PortalGroup\Services;
 
-use Error;
 use Exception;
 use Modules\PortalGroup\Classes\PGUserClasses;
-use Modules\UserAdmin\Entities\UserAdminBasicSearch;
+use Modules\PortalGroup\Entities\PGUserAdminBasicSearch;
 use Modules\UserAdmin\Services\UserAdminService;
 
 class PGUserService extends UserAdminService
@@ -21,7 +20,7 @@ class PGUserService extends UserAdminService
   public function getUsersWithoutPortalId(int $portal_id, $props)
   {
     try {
-      $userAdmin = new UserAdminBasicSearch();
+      $userAdmin = new PGUserAdminBasicSearch();
       $userAdmin = $userAdmin->search($props["search"]);
       $userAdmin = $userAdmin->where("pg_portal_id", "!=", $portal_id);
       $userAdmin = $userAdmin->orWhereNull("pg_portal_id");
@@ -43,7 +42,7 @@ class PGUserService extends UserAdminService
   public function getUsersByPortalId(int $portal_id, $props)
   {
     try {
-      $userAdmin = new UserAdminBasicSearch();
+      $userAdmin = new PGUserAdminBasicSearch();
       $userAdmin = $userAdmin->search($props["search"]);
       $userAdmin = $userAdmin->where("pg_portal_id", "=", $portal_id);
       $userAdmin = $userAdmin->whereNotNull("pg_portal_id");
@@ -65,14 +64,14 @@ class PGUserService extends UserAdminService
   public function joinPortal(int $user_id, int $pg_portal_id)
   {
     try {
-      $user = UserAdminBasicSearch::where("id", "=", $user_id)->where("pg_portal_id", "=", $pg_portal_id)->first();
+      $user = PGUserAdminBasicSearch::where("id", "=", $user_id)->where("pg_portal_id", "=", $pg_portal_id)->first();
       if ($user != null) {
         // It mean delete it
         $user->pg_portal_id = null;
         $user->save();
         return PGUserClasses::set($user);
       }
-      $user = UserAdminBasicSearch::find($user_id);
+      $user = PGUserAdminBasicSearch::find($user_id);
       $old_portal_id = $user->pg_portal_id;
       $user->pg_portal_id = $pg_portal_id;
       $user->save();

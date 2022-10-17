@@ -7,22 +7,24 @@ use Modules\Auth\Classes\BaseClasses;
 
 class PGPortalSelectedClasses extends BaseClasses
 {
-  private ?int $id = null;
-  private ?int $user_id = null;
-  private ?int $portal_id = null;
-  private $user = null;
-  private $portal = null;
-  private $portal_group = null;
-  private ?array $data = null;
-  private ?DateTime $created_at = null;
-  private ?DateTime $updated_at = null;
+  protected ?int $id = null;
+  protected ?int $user_id = null;
+  protected ?int $pg_portal_id  = null;
+  protected ?int $pg_portal_group_id   = null;
+  protected $user = null;
+  protected $portal = null;
+  protected ?PGPortalGroupClasses $portal_group = null;
+  protected ?array $data = null;
+  protected ?DateTime $created_at = null;
+  protected ?DateTime $updated_at = null;
 
   public function jsonSerialize(): mixed
   {
     return [
       "id" => $this->id,
       "user_id" => $this->user_id,
-      "portal_id" => $this->portal_id,
+      "pg_portal_id" => $this->pg_portal_id,
+      "pg_portal_group_id" => $this->pg_portal_group_id,
       "portal" => $this->portal,
       "user" => $this->user,
       "portal_group" => $this->portal_group,
@@ -38,9 +40,10 @@ class PGPortalSelectedClasses extends BaseClasses
     $self = new PGPortalSelectedClasses();
     $self->setId($props->id);
     $self->setUser_id($props->user_id);
-    $self->setPortal_id($props->portal_id);
+    $self->setPg_portal_id($props->pg_portal_id);
     $self->setPortal($props->portal);
-    $self->setPortal_group($props->portal_group);
+    $self->setPortal_group(PGPortalGroupClasses::set($props->portal_group));
+    $self->setPg_portal_group_id($props->pg_portal_group_id);
     $self->setUser($props->user);
     $self->setData($props->data);
     $self->setCreated_at(new DateTime($props->created_at));
@@ -224,6 +227,46 @@ class PGPortalSelectedClasses extends BaseClasses
   public function setPortal_group($portal_group)
   {
     $this->portal_group = $portal_group;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of pg_portal_group_id
+   */
+  public function getPg_portal_group_id()
+  {
+    return $this->pg_portal_group_id;
+  }
+
+  /**
+   * Set the value of pg_portal_group_id
+   *
+   * @return  self
+   */
+  public function setPg_portal_group_id($pg_portal_group_id)
+  {
+    $this->pg_portal_group_id = $pg_portal_group_id;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of pg_portal_id
+   */
+  public function getPg_portal_id()
+  {
+    return $this->pg_portal_id;
+  }
+
+  /**
+   * Set the value of pg_portal_id
+   *
+   * @return  self
+   */
+  public function setPg_portal_id($pg_portal_id)
+  {
+    $this->pg_portal_id = $pg_portal_id;
 
     return $this;
   }

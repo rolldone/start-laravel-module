@@ -2,13 +2,9 @@
 
 namespace Modules\PortalGroup\Services;
 
-use Error;
 use Exception;
 use Modules\PortalGroup\Classes\PGPortalGroupClasses;
-use Modules\PortalGroup\Classes\PGUserClasses;
 use Modules\PortalGroup\Entities\PGPortalGroup;
-use Modules\UserAdmin\Classes\UserAdminClasses;
-use Modules\UserAdmin\Entities\UserAdmin;
 
 class PGPortalGroupService
 {

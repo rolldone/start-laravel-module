@@ -5,12 +5,11 @@ namespace Modules\PortalGroup\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Modules\Auth\Http\Controllers\BaseController;
 use Modules\PortalGroup\Entities\PGPortalSelected;
 use Modules\PortalGroup\Services\PGPortalGroupService;
 use Modules\PortalGroup\Services\PGPortalService;
-use PDO;
+use Modules\PortalGroup\Services\PGUserGroupPositionService;
 
 class PGPortalController extends BaseController
 {
@@ -107,6 +106,10 @@ class PGPortalController extends BaseController
       $user = Auth::user();
       $gmPortal = new PGPortalService();
       $resData = $gmPortal->getOwnPortals($user->pg_portal_id, $user->id);
+      if (count($resData) == 0) {
+        // IF null get by position id
+        $resData = $gmPortal->getOwnPortalsByPositionId($user->id);
+      }
       $resData = [
         'status' => 'success',
         'status_code' => 200,
@@ -154,16 +157,26 @@ class PGPortalController extends BaseController
     }
   }
 
-  public function getCurrentPortalSelected(Request $req)
+  public function getCurrentGroupByCurrentPortalSelected(Request $req)
   {
     try {
+      $group = null;
       $user = Auth::user();
-      $gmPostalSelected = new PGPortalService();
-      $resData = $gmPostalSelected->getCurrentPortalByUserId($user->id);
+      $gmPortalSelected = new PGPortalService();
+      $resData = $gmPortalSelected->getCurrentPortalByUserId($user->id);
+      if ($resData == null) {
+        $pgUPGService = new PGUserGroupPositionService();
+        $resData = $pgUPGService->getUPG_ByUserId_Active($user->id);
+        if($resData != null){
+          $group = $resData->getGroup();
+        }
+      } else {
+        $group = $resData->getPortal_group()->getGroup();
+      }
       $resData = [
         'status' => 'success',
         'status_code' => 200,
-        'return' => $resData
+        'return' => $group
       ];
       return response()->json($resData, $resData["status_code"]);
     } catch (Exception $ex) {

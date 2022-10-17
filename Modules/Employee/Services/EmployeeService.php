@@ -4,8 +4,9 @@ namespace Modules\Employee\Services;
 
 use Error;
 use Exception;
-use Modules\Employee\Entities\dto\EmployeeDto;
+use Modules\Employee\Classes\EMEmployeeClasses;
 use Modules\Employee\Entities\EMEmployee;
+use Modules\Employee\Entities\EMEmployeeBasicSearch;
 
 class EmployeeService
 {
@@ -14,7 +15,7 @@ class EmployeeService
    *
    * @param  mixed $props
    * @param  EMEmployee $exist
-   * @return EmployeeDto
+   * @return EMEmployeeClasses
    */
   public function addEmployee($props, $exist = null)
   {
@@ -25,10 +26,10 @@ class EmployeeService
       $employeeModel->address = $props["address"];
       $employeeModel->phone_number = $props["phone_number"];
       $employeeModel->email = $props["email"];
-      // $employeeModel->user_id = $props["user_id"];
+      $employeeModel->user_id = isset($props["user_id"]) == true ? $props["user_id"] : null;
       $employeeModel->status = $props["status"];
       $employeeModel->save();
-      return EmployeeDto::set($employeeModel);
+      return EMEmployeeClasses::set($employeeModel);
     } catch (Exception $ex) {
       throw $ex;
     }
@@ -37,8 +38,8 @@ class EmployeeService
   /**
    * updateEmployee
    *
-   * @param  EmployeeDto $props
-   * @return EMEmployee
+   * @param  EMEmployeeClasses $props
+   * @return EMEmployeeClasses
    */
   public function updateEmployee($props)
   {
@@ -63,7 +64,7 @@ class EmployeeService
   {
     try {
       $employeeModel = EMEmployee::find($id);
-      return EmployeeDto::set($employeeModel);
+      return EMEmployeeClasses::set($employeeModel);
     } catch (Exception $ex) {
       throw $ex;
     }
@@ -73,7 +74,7 @@ class EmployeeService
   {
     try {
       $employeeModel = EMEmployee::where("user_id", "=", $user_id)->first();
-      return EmployeeDto::set($employeeModel);
+      return EMEmployeeClasses::set($employeeModel);
     } catch (Exception $ex) {
       throw $ex;
     }
@@ -88,10 +89,35 @@ class EmployeeService
   public function getEmployees($props)
   {
     try {
-      $employeeModel = new EMEmployee();
+      $employeeModel = new EMEmployeeBasicSearch();
       $employeeModel = $employeeModel->take($props["take"])->skip($props["take"] * $props["skip"]);
+      $employeeModel = $employeeModel->search($props["search"]);
       $employeeModel = $employeeModel->get();
-      return EmployeeDto::sets($employeeModel);
+      return EMEmployeeClasses::sets($employeeModel);
+    } catch (Exception $ex) {
+      throw $ex;
+    }
+  }
+
+  /**
+   * getEmployeeByHasCurrentGroup_AndFree
+   * Get Employee by own group and non job
+   * @param  int $group_id
+   * @param  array $props
+   * @return array<EMEmployeeClasses>
+   */
+  public function getEmployeeByHasCurrentGroup_AndFree(int $group_id, $props)
+  {
+    try {
+      $employeeModel = new EMEmployeeBasicSearch();
+      $employeeModel = $employeeModel->take($props["take"])->skip($props["take"] * $props["skip"]);
+      $employeeModel = $employeeModel->search($props["search"]);
+      $employeeModel = $employeeModel->whereHas("user_position_group", function ($q) use ($group_id) {
+        return $q->where("group_id", '=', $group_id);
+      });
+      $employeeModel = $employeeModel->orDoesntHave("user_position_group");
+      $employeeModel = $employeeModel->get();
+      return EMEmployeeClasses::sets($employeeModel);
     } catch (Exception $ex) {
       throw $ex;
     }
