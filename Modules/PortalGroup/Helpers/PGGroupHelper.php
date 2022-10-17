@@ -29,13 +29,9 @@ class PGGroupHelper
       if ($user == null) {
         $user = $from_user;
       }
-      $group = Cache::get("company", null);
-      if ($group == null) {
-        $pgPortalService = new PGPortalService();
-        $resData = $pgPortalService->getCurrentPortalByUserId($user->id);
-        Cache::add("company", $resData);
-      }
-      return Cache::get("company", null);
+      $pgPortalService = new PGPortalService();
+      $resData = $pgPortalService->getCurrentPortalByUserId($user->id);
+      return $resData;
     } catch (Exception $ex) {
       Log::debug($ex);
       Cache::set("company", null);
